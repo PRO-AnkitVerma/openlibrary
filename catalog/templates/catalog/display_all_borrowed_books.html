@@ -1,0 +1,18 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+
+
+    {% for copy in bookinstance_list %}
+        <div class="border-left border-4  p-3 mb-3 {% if copy.is_overdue %}border-danger{% else %} border-success{% endif %}">
+            <h1><a href="{{ copy.book.get_absolute_url }}">{{ copy.book.title }}</a></h1>
+            <p><strong>Borrowed by:</strong> {{ copy.borrower.username }}</p>
+            <p class="{% if copy.is_overdue %}text-danger{% else %} text-success{% endif %}">
+                <strong>Due to be returned:</strong> {{ copy.due_back }}
+            </p>
+            <p><strong>Imprint:</strong> {{ copy.imprint }}</p>
+            <p class="text-muted"><strong>Id:</strong> {{ copy.id }}</p>
+            - <a href="{% url 'renew-book-librarian' copy.id %}">Renew</a>
+        </div>
+    {% endfor %}
+{% endblock %}
